@@ -6,7 +6,6 @@
 
 import Foundation
 import Security
-import SwiftyRSA
 
 class SwiftConvertJWKtoPEM {
     

@@ -4,20 +4,20 @@
 import PackageDescription
 
 let package = Package(
-    name: "Swift-Convert-JWK-PEM",
+    name: "SwiftConvertJWKtoPEM",
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "Swift-Convert-JWK-PEM",
-            targets: ["Swift-Convert-JWK-PEM"]),
+            name: "SwiftConvertJWKtoPEM",
+            targets: ["SwiftConvertJWKtoPEM"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Swift-Convert-JWK-PEM"),
+            name: "SwiftConvertJWKtoPEM"),
         .testTarget(
-            name: "Swift-Convert-JWK-PEMTests",
-            dependencies: ["Swift-Convert-JWK-PEM"]),
+            name: "SwiftConvertJWKtoPEMTests",
+            dependencies: ["SwiftConvertJWKtoPEM"]),
     ]
 )

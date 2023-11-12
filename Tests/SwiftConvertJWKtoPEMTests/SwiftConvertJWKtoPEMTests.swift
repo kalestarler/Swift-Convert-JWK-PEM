@@ -1,7 +1,7 @@
 import XCTest
 @testable import Swift_Convert_JWK_PEM
 
-final class Swift_Convert_JWK_PEMTests: XCTestCase {
+final class SwiftConvertJWKtoPEMTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
