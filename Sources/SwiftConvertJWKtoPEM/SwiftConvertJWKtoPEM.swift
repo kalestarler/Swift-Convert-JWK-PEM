@@ -12,7 +12,7 @@ class SwiftConvertJWKtoPEM {
     
     // MARK: - Public Functions
     
-    public func getPublicKey(jwksURL: URL, completion: @escaping (Result<String, swiftConvertJWKPEMError>) -> Void) {
+    static public func getPublicKey(jwksURL: URL, completion: @escaping (Result<String, swiftConvertJWKPEMError>) -> Void) {
         
         DispatchQueue.global().async {
             
@@ -67,7 +67,7 @@ class SwiftConvertJWKtoPEM {
     
     // MARK: - Private Functions
     
-    private func base64URLDecode(_ base64URL: String) -> Data? {
+    static private func base64URLDecode(_ base64URL: String) -> Data? {
         var base64 = base64URL
             .replacingOccurrences(of: "-", with: "+")
             .replacingOccurrences(of: "_", with: "/")
@@ -79,7 +79,7 @@ class SwiftConvertJWKtoPEM {
         return Data(base64Encoded: base64)
     }
     
-    private func encodeASN1Integer(_ data: Data) -> Data {
+    static private func encodeASN1Integer(_ data: Data) -> Data {
         
         guard !data.isEmpty else {
             print("Data not valid, cannot proceed with AS1 encoding.")
@@ -100,7 +100,7 @@ class SwiftConvertJWKtoPEM {
         return Data([0x02]) + encodedLength + result
     }
     
-    private func encodeLength(_ length: Int) -> Data {
+    static private func encodeLength(_ length: Int) -> Data {
         if length < 128 {
             // Short form length encoding
             return Data([UInt8(length)])
@@ -112,7 +112,7 @@ class SwiftConvertJWKtoPEM {
         }
     }
     
-    private func createPublicKeyASN1Sequence(modulus: Data, exponent: Data) -> Data {
+    static private func createPublicKeyASN1Sequence(modulus: Data, exponent: Data) -> Data {
         let modulusASN1 = encodeASN1Integer(modulus)
             let exponentASN1 = encodeASN1Integer(exponent)
 
@@ -123,12 +123,12 @@ class SwiftConvertJWKtoPEM {
             return Data([0x30]) + encodedLength + modulusASN1 + exponentASN1
     }
     
-    private func convertToPEMFormat(derEncodedSequence: Data) -> String {
+    static private func convertToPEMFormat(derEncodedSequence: Data) -> String {
         let base64Encoded = derEncodedSequence.base64EncodedString(options: .lineLength64Characters)
         return "-----BEGIN PUBLIC KEY-----\n\(base64Encoded)\n-----END PUBLIC KEY-----"
     }
     
-    func convertJWKToPEM(jwk: JWK) -> String? {
+    static func convertJWKToPEM(jwk: JWK) -> String? {
         
         guard let modulusData = base64URLDecode(jwk.n),
               let exponentData = base64URLDecode(jwk.e) else {
@@ -138,7 +138,6 @@ class SwiftConvertJWKtoPEM {
         let asn1Sequence = createPublicKeyASN1Sequence(modulus: modulusData, exponent: exponentData)
         return convertToPEMFormat(derEncodedSequence: asn1Sequence)
     }
-    
 }
 
 struct JWKS: Codable {
