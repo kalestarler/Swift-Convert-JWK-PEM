@@ -20,7 +20,7 @@ class SwiftConvertJWKtoPEM {
                 if let error = error {
                     
                     DispatchQueue.main.async {
-                        completion(.failure(.retrieveJWKSError(reason: "Error loading JWKS from URL")))
+                        completion(.failure(.retrieveJWKSError(reason: "Error loading JWKS from URL: " + error.localizedDescription)))
                     }
                     return
                 }
