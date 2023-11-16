@@ -1,0 +1,36 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ main ]
+  schedule:
+    - cron: '15 6 * * 6'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['swift']
+        # Add other languages here if necessary
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Build Swift Package
+      run: swift build
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
