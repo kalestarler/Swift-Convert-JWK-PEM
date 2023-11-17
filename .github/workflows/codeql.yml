@@ -48,6 +48,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    # Setup newer version of Swift. May need to update this in future
+    - name: Setup Swift 5.9.0
+      uses: fwal/setup-swift@v1
+      with:
+        swift-version: '5.9.0' # Specify the required Swift version
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
